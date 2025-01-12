@@ -1,6 +1,6 @@
 {
-    "name": "ai_token_generator",
-    "short_name": "ai_token_generator",
+    "name": "solgpt",
+    "short_name": "solgpt",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
