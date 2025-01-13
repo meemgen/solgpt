@@ -34,7 +34,7 @@ async function autoDetectAndConnect() {
       connectedPublicKey = window.solana.publicKey.toString();
       walletType = "phantom";
       solBalance = await getSolBalance(connectedPublicKey);
-      tokenBalance = await getTokenBalance(connectedPublicKey, TOKEN_MINT_ADDRESS);
+      tokenBalance =  0;//await getTokenBalance(connectedPublicKey, TOKEN_MINT_ADDRESS);
 
       Swal.fire({
         icon: 'success',
