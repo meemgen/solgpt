@@ -16,21 +16,19 @@ async function connectAndGetPublicKeyJS() {
       });
     };
 
-    connectedPublicKey = '2L75RuHAUffzdn78uXQSdk8gxnJEU2zTgBq9VRJu1Eqi';
-    walletType = "Phantom";
-    showSuccessMessage(walletType, connectedPublicKey);
-
     // Check and connect to Phantom wallet
     if (window.solana && window.solana.isPhantom) {
       console.log("Attempting to connect to Phantom...");
-      await window.solana.connect();
-      connectedPublicKey = window.solana.publicKey.toString();
-      walletType = "Phantom";
-      showSuccessMessage(walletType, connectedPublicKey);
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(connectedPublicKey);
-        }, 2000);
+      return new Promise(async (resolve, reject) => {
+        try {
+          await window.solana.connect();
+          const connectedPublicKey = window.solana.publicKey.toString();
+          const walletType = "Phantom";
+          showSuccessMessage(walletType, connectedPublicKey);
+          resolve(connectedPublicKey); // Resolving with the public key immediately
+        } catch (error) {
+          reject(error); // Handling any errors that occur during connection
+        }
       });
   
     }
@@ -38,20 +36,22 @@ async function connectAndGetPublicKeyJS() {
     // Check and connect to Solflare wallet
     if (typeof Solflare !== "undefined") {
       console.log("Attempting to connect to Solflare...");
-      const solflare = new Solflare();
-      // await solflare.connect();
-      if (solflare.isConnected) {
-        connectedPublicKey = solflare.publicKey.toString();
-        walletType = "Solflare";
-        showSuccessMessage(walletType, connectedPublicKey);
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-              resolve(connectedPublicKey);
-          }, 2000);
-        });  
-      }
+      return new Promise(async (resolve, reject) => {
+        try {
+          const solflare = new Solflare();
+          // await solflare.connect();
+          if (solflare.isConnected) {
+            connectedPublicKey = solflare.publicKey.toString();
+            walletType = "Solflare";
+            showSuccessMessage(walletType, connectedPublicKey);
+            resolve(connectedPublicKey);
+          }
+        } catch (error) {
+          reject(error); // Handling any errors that occur during connection
+        }
+      });
     }
-
+   
     // No wallet detected
     Swal.fire({
       icon: 'error',
