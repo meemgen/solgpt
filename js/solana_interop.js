@@ -1,6 +1,6 @@
 let connectedPublicKey = null;
 
-async function autoDetectAndConnect() {
+async function connectAndGetPublicKey() {
   try {
     let walletType = null;
 
