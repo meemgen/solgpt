@@ -19,7 +19,7 @@ async function autoDetectAndConnect() {
         `,
         footer: '<a href="https://phantom.app" target="_blank">Learn more about Phantom</a>',
       });
-      return { walletType, connectedPublicKey, };
+      return connectedPublicKey;
     }
 
     // Attempt to connect to Solflare
@@ -38,7 +38,7 @@ async function autoDetectAndConnect() {
           `,
           footer: '<a href="https://solflare.com" target="_blank">Learn more about Solflare</a>',
         });
-        return { walletType, connectedPublicKey, };
+        return connectedPublicKey;
       }
     }
 
