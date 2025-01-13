@@ -5,7 +5,7 @@ async function autoDetectAndConnect() {
     // Check for Phantom wallet
     if (window.solana && window.solana.isPhantom) {
       console.log("Attempting to connect to Phantom...");
-      await window.solana.connect(); // Auto-connect if previously approved
+      await window.phantom.solana.connect(); // Auto-connect if previously approved
       connectedPublicKey = window.solana.publicKey.toString();
       console.log("Connected with Phantom:", connectedPublicKey);
       return "phantom";
