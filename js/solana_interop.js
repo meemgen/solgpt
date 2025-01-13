@@ -4,41 +4,36 @@ async function connectAndGetPublicKey() {
   try {
     let walletType = null;
 
-    // Attempt to connect to Phantom
-    if (window.solana && window.solana.isPhantom) {
-      console.log("Attempting to connect to Phantom...");
-      await window.phantom.solana.connect();
-      connectedPublicKey = window.solana.publicKey.toString();
-      walletType = "phantom";
-
+    // Function to display success message
+    const showSuccessMessage = (walletName, publicKey) => {
       Swal.fire({
         icon: 'success',
-        title: 'Connected to Phantom!',
-        html: `
-          <p><strong>Public Key:</strong> ${connectedPublicKey}</p>
-        `,
-        footer: '<a href="https://phantom.app" target="_blank">Learn more about Phantom</a>',
+        title: `Connected to ${walletName}!`,
+        html: `<p><strong>Public Key:</strong> ${publicKey}</p>`,
+        footer: `<a href="https://${walletName.toLowerCase()}.app" target="_blank">Learn more about ${walletName}</a>`,
       });
-      return Promise.resolve({ walletType, connectedPublicKey });
+    };
+
+    // Check and connect to Phantom wallet
+    if (window.solana && window.solana.isPhantom) {
+      console.log("Attempting to connect to Phantom...");
+      await window.solana.connect();
+      connectedPublicKey = window.solana.publicKey.toString();
+      walletType = "Phantom";
+      showSuccessMessage(walletType, connectedPublicKey);
+      return { walletType, connectedPublicKey };
     }
 
-    // Attempt to connect to Solflare
+    // Check and connect to Solflare wallet
     if (typeof Solflare !== "undefined") {
-      const solflare = new Solflare();
       console.log("Attempting to connect to Solflare...");
+      const solflare = new Solflare();
       await solflare.connect();
       if (solflare.isConnected) {
         connectedPublicKey = solflare.publicKey.toString();
-        walletType = "solflare";
-        Swal.fire({
-          icon: 'success',
-          title: 'Connected to Solflare!',
-          html: `
-            <p><strong>Public Key:</strong> ${connectedPublicKey}</p>
-          `,
-          footer: '<a href="https://solflare.com" target="_blank">Learn more about Solflare</a>',
-        });
-        return Promise.resolve({ walletType, connectedPublicKey });
+        walletType = "Solflare";
+        showSuccessMessage(walletType, connectedPublicKey);
+        return { walletType, connectedPublicKey };
       }
     }
 
@@ -50,8 +45,9 @@ async function connectAndGetPublicKey() {
       footer: '<a href="https://phantom.app" target="_blank">Download Phantom</a> | <a href="https://solflare.com" target="_blank">Download Solflare</a>',
     });
     return null;
-  } catch (err) {
-    console.error("Error during wallet connection:", err);
+
+  } catch (error) {
+    console.error("Error during wallet connection:", error);
     Swal.fire({
       icon: 'error',
       title: 'Connection Failed',
