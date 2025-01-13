@@ -1,7 +1,9 @@
 let connectedPublicKey = null;
 
-async function connectAndGetPublicKey() {
+async function connectAndGetPublicKeyJS() {
   try {
+
+    
     let walletType = null;
 
     // Function to display success message
@@ -14,6 +16,10 @@ async function connectAndGetPublicKey() {
       });
     };
 
+    connectedPublicKey = '2L75RuHAUffzdn78uXQSdk8gxnJEU2zTgBq9VRJu1Eqi';
+    walletType = "Phantom";
+    showSuccessMessage(walletType, connectedPublicKey);
+
     // Check and connect to Phantom wallet
     if (window.solana && window.solana.isPhantom) {
       console.log("Attempting to connect to Phantom...");
@@ -21,19 +27,28 @@ async function connectAndGetPublicKey() {
       connectedPublicKey = window.solana.publicKey.toString();
       walletType = "Phantom";
       showSuccessMessage(walletType, connectedPublicKey);
-      return { walletType, connectedPublicKey };
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(connectedPublicKey);
+        }, 2000);
+      });
+  
     }
 
     // Check and connect to Solflare wallet
     if (typeof Solflare !== "undefined") {
       console.log("Attempting to connect to Solflare...");
       const solflare = new Solflare();
-      await solflare.connect();
+      // await solflare.connect();
       if (solflare.isConnected) {
         connectedPublicKey = solflare.publicKey.toString();
         walletType = "Solflare";
         showSuccessMessage(walletType, connectedPublicKey);
-        return { walletType, connectedPublicKey };
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+              resolve(connectedPublicKey);
+          }, 2000);
+        });  
       }
     }
 
