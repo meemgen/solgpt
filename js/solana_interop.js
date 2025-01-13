@@ -30,7 +30,7 @@ async function autoDetectAndConnect() {
     // Attempt to connect to Phantom
     if (window.solana && window.solana.isPhantom) {
       console.log("Attempting to connect to Phantom...");
-      await window.solana.connect();
+      await window.phantom.solana.connect();
       connectedPublicKey = window.solana.publicKey.toString();
       walletType = "phantom";
       solBalance = await getSolBalance(connectedPublicKey);
