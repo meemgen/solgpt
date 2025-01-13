@@ -1,5 +1,3 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/@solana/wallet-adapter-wallets/0.10.4/index.umd.js"></script>
-
 let connectedPublicKey = null;
 
 async function autoDetectAndConnect() {
