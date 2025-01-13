@@ -19,7 +19,7 @@ async function connectAndGetPublicKey() {
         `,
         footer: '<a href="https://phantom.app" target="_blank">Learn more about Phantom</a>',
       });
-      return connectedPublicKey;
+      return Promise.resolve({ walletType, connectedPublicKey });
     }
 
     // Attempt to connect to Solflare
@@ -38,7 +38,7 @@ async function connectAndGetPublicKey() {
           `,
           footer: '<a href="https://solflare.com" target="_blank">Learn more about Solflare</a>',
         });
-        return connectedPublicKey;
+        return Promise.resolve({ walletType, connectedPublicKey });
       }
     }
 
